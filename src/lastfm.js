@@ -12,10 +12,12 @@ exports.getRecentTracks = async (user) => {
   if (response.ok) {
     const data = await response.json()
 
-    if (data && data && data.recenttracks) {
+    if (data && data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {
+      const track = data.recenttracks.track[0]
+      const nowplaying = track['@attr'] && track['@attr'].nowplaying === 'true'
+      return { track, nowplaying }
     } else throw UnexpectedError
 
-    return data.recenttracks
   } else if (response.status === 404) throw new Error('User not found')
   else throw UnexpectedError
 }

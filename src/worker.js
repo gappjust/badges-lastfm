@@ -4,14 +4,17 @@ const lastfm = require('./lastfm')
 
 const lastPlayed = async (parameters) => {
   const defaults = {
-    label: 'Last Played',
+    label: 'last scrobbled',
     color: 'red',
     logo: 'last.fm'
   }
 
   try {
     const data = await lastfm.getRecentTracks(parameters.user)
-    parameters.message = `${data.track[0].name} by ${data.track[0].artist['#text']}`
+    if (data.nowplaying) {
+      parameters.label = '🔊 now scrobbling'
+    }
+    parameters.message = `${data.track.artist['#text']} — ${data.track.name}`
   } catch (err) {
     parameters.message = err.message
   }
