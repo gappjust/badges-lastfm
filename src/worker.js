@@ -13,8 +13,9 @@ const lastPlayed = async (parameters) => {
     const data = await lastfm.getRecentTracks(parameters.user)
     if (data.nowplaying) {
       parameters.label = 'now scrobbling'
+      parameters.message = `🎵 ${data.track.artist['#text']} — ${data.track.name}`
     }
-    parameters.message = `🎵 ${data.track.artist['#text']} — ${data.track.name}`
+    parameters.message = `${data.track.artist['#text']} — ${data.track.name}`
   } catch (err) {
     parameters.message = err.message
   }
